@@ -1,24 +1,33 @@
-const events = require('events');
-const ws = require('ws');
-const fs = require('fs');
-const server = new ws.Server({port:8080});
-let myEmitter = new events.EventEmitter();
+const EventEmitter = require('events').EventEmitter;
+const myEE = new EventEmitter();
 
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
 
+function isEven(num) {
+  return num % 2 === 0;
+}
 
-myEmitter.on('are-there-donuts', () => {
-    var donuts = checkDonuts();
-    if (donuts) {
-        myEmitter.emit('go-get-donuts');
-    } else {
-        myEmitter.emit('no-donuts');
-    }
-});
+setInterval(() => {
+  let event;
+  if (isEven(getRandomInt(1, 100))) {
+    event = 'hot-donuts-now';
+  } else {
+    event = 'no-donuts';
+  }
+  myEE.emit(event);
+}, 1000);
 
-myEmitter.on('go-get-donuts', () => {
-    goGetDonuts();
-});
+function addHotListener(callback) {
+  myEE.on('hot-donuts-now', callback);
+}
 
-myEmitter.on('no-donuts', () => {
-    noDonuts();
-});
+function addNoneListener(callback) {
+  myEE.on('no-donuts', callback);
+}
+
+module.exports = {
+  addHotListener: addHotListener,
+  addNoneListener: addNoneListener
+};
