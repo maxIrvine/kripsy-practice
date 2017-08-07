@@ -1,21 +1,24 @@
 // Import the wsnotifier
 // Import the krispykreme
-import {addHotListener, addNoneListener} from 'krispy';
-import {broadcast, init} from 'notifier';
+const express = require("express");
+const notifier = require('./notifier');
+const krispy = require('./krispy');
+// import {addHotListener, addNoneListener} from 'krispy';
+// import {broadcast, init} from 'notifier';
 
 function main() {
   // Associate the `add` methods
   // from krispykreme module
   // with callbacks you pass to the
   // wsnotifier methods
-  init((socket) => {
+  notifier.init((socket) => {
       socket.send("You are connected!");
   });
-  addHostListener(function () {
-    broadcast('Hot donuts anyone?');
+  krispy.addHotListener(function () {
+    notifier.broadcast('Hot donuts anyone?');
   });
-  addNoneListener(function () {
-    broadcast("No donuts for you hahah!");
+  krispy.addNoneListener(function () {
+    notifier.broadcast("No donuts for you hahah!");
   });
 }
 main();

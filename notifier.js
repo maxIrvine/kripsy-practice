@@ -10,7 +10,7 @@ let wsServer;
 function broadcast (message) {
   // Use a WebSocket connection to
   // tell all clients a message
-    socket.on('connection', (socket) => {
+    server.on('connection', (socket) => {
         socket.on('message', (msg) => {
             server.clients.forEach( (client) => {
                 client.send(message);
@@ -20,11 +20,9 @@ function broadcast (message) {
 }
 
 function init(callback) {
-  wsServer =  new WebSocketServer({ port: PORT });
-
   // Whatever callback gets passed in
   // It has access to the socket
-  wsServer.on('connection', (socket) => {
+  server.on('connection', (socket) => {
     callback(socket);
   })
 }
