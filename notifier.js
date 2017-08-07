@@ -10,12 +10,8 @@ let wsServer;
 function broadcast (message) {
   // Use a WebSocket connection to
   // tell all clients a message
-    server.on('connection', (socket) => {
-        socket.on('message', (msg) => {
-            server.clients.forEach( (client) => {
-                client.send(message);
-            });
-        });
+    server.clients.forEach( (client) => {
+        client.send(message);
     });
 }
 

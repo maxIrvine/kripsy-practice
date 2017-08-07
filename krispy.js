@@ -16,7 +16,8 @@ setInterval(() => {
   } else {
     event = 'no-donuts';
   }
-  myEE.emit(event);
+  myEE.
+  emit(event);
 }, 1000);
 
 function addHotListener(callback) {
